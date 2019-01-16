@@ -1,5 +1,11 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: all
+  gather_facts: true
+  vars:
+    temp_path: '{{ansible_env.TEMP}}'
+  tasks:
+    - name: show path
+      debug:
+        var: temp_path
   roles:
-    - ansible-adagios-agent-windows
+    - ../../ansible-adagios-agent-windows
