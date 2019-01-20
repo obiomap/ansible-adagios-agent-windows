@@ -8,7 +8,6 @@ python: "2.7"
 env:
   - ANSIBLE_VERSION=latest
   - ANSIBLE_VERSION=2.7.5
-  - ANSIBLE_VERSION=2.6.11
 
 branches:
   only:
