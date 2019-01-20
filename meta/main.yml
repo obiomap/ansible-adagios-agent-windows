@@ -1,6 +1,6 @@
 galaxy_info:
   author: Gardar Thorsteinsson
-  description: IT Consultant
+  description: Ansible role for installing Adagios agent (NSClient++ with Adagios/OKconfig support)
   company: Opin Kerfi
 
   # If the issue tracker for your role is not on github, uncomment the
@@ -36,9 +36,9 @@ galaxy_info:
   # https://galaxy.ansible.com/api/v1/platforms/
   #
   platforms:
-    - name: Windows
+  - name: Windows
     versions:
-      - all
+    - all
   #   - 25
   # - name: SomePlatform
   #   versions:
