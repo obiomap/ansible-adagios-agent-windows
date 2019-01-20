@@ -25,4 +25,4 @@ script:
   # Check the role/playbook's syntax.
   - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
 
-  - if [ "$ANSIBLE_VERSION" = "latest" ]; then ansible-lint tests/test.yml; fi
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then ansible-lint -x 204 tests/test.yml; fi

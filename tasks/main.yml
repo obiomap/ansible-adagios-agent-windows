@@ -17,6 +17,4 @@
 
 - name: Configure nscp allowed_hosts
   win_command: 'C:\PROGRA~1\NSClient++\nscp.exe settings --path /settings/default --key "allowed hosts" --set "{{ allowed_hosts }}"'
-  tags:
-  - skip_ansible_lint
   notify: restart_nscp
