@@ -1,20 +1,20 @@
 ---
 #tasks file for ansible-adagios-agent-windows
-- name: Download Adagios agent version {{adagios_agent_version}} from Github
+- name: Download Adagios agent version {{ adagios_agent_version }} from Github
   win_get_url:
-    url: https://github.com/opinkerfi/adagios-agent-windows/archive/{{adagios_agent_version}}.zip
-    dest: '{{ansible_env.TEMP}}\{{adagios_agent_version}}.zip'
+    url: https://github.com/opinkerfi/adagios-agent-windows/archive/{{ adagios_agent_version }}.zip
+    dest: '{{ ansible_env.TEMP }}\{{ adagios_agent_version }}.zip'
     validate_certs: no
     timeout: 100
 
 - name: Unzip
   win_unzip:
-    src: '{{ansible_env.TEMP}}\{{adagios_agent_version}}.zip'
-    dest: '{{ansible_env.TEMP}}'
+    src: '{{ ansible_env.TEMP }}\{{ adagios_agent_version }}.zip'
+    dest: '{{ ansible_env.TEMP }}'
 
 - name: Install Adagios agent (NSClient++ with OKconfig support for Adagios)
-  win_command: '{{ansible_env.TEMP}}\adagios-agent-windows-{{adagios_agent_version}}\Deploy-Application.exe'
+  win_command: '{{ ansible_env.TEMP }}\adagios-agent-windows-{{ adagios_agent_version }}\Deploy-Application.exe'
 
 - name: Configure nscp allowed_hosts
-  win_command: 'C:\PROGRA~1\NSClient++\nscp.exe settings --path /settings/default --key "allowed hosts" --set "{{nscp_allowed_hosts}}"'
+  win_command: 'C:\PROGRA~1\NSClient++\nscp.exe settings --path /settings/default --key "allowed hosts" --set "{{ nscp_allowed_hosts }}"'
   notify: restart_nscp
