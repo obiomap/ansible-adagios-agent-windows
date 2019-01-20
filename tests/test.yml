@@ -2,8 +2,8 @@
 - hosts: all
   gather_facts: true
   vars:
-    temp_path: '{{ansible_env.TEMP}}'
-    nscp_allowed_hosts: "127.0.0.1,adagios-server"
+    temp_path: '{{ ansible_env.TEMP }}'
+    allowed_hosts: "127.0.0.1,adagios-server"
   tasks:
     - name: show env
       debug:
