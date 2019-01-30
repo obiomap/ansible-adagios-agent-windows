@@ -4,7 +4,7 @@
   vars:
     temp_path: '{{ ansible_env.TEMP }}'
     allowed_hosts: "127.0.0.1,adagios-server"
-    adagios_agent_version: "1.0.5"
+    adagios_agent_version: "1.0.0.1"
   tasks:
     - name: show env
       debug:
