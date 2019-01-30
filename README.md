@@ -1,7 +1,7 @@
-ansible-adagios-agent-windows
+Ansible Galaxy role ansible-adagios-agent-windows
 =========
 
-Ansible role for installing Adagios agent on Windows. Adagios agent is a bundle of NSClient++ and Adagios (OKconfig) tools for Nagios NRPE checks mainly used by Adagios running on Nagios / Naemon monitoring servers. The role uses another Github repository that handles the installation process. https://github.com/opinkerfi/adagios-agent-windows
+Ansible Galaxy role for installing Adagios agent on Windows. Adagios agent is a bundle of NSClient++ and Adagios (OKconfig) tools for Nagios NRPE checks mainly used by Adagios running on Nagios / Naemon monitoring servers. The role uses another Github repository that handles the installation process. https://github.com/opinkerfi/adagios-agent-windows
 
 Requirements
 ------------
