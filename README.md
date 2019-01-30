@@ -1,35 +1,56 @@
-Role Name
+ansible-adagios-agent-windows
 =========
 
-A brief description of the role goes here.
+Ansible role for installing Adagios agent on Windows. Adagios agent is a bundle of NSClient++ and Adagios (OKconfig) tools for Nagios NRPE checks mainly used by Adagios running on Nagios / Naemon monitoring servers. The role uses another Github repository that handles the installation process. https://github.com/opinkerfi/adagios-agent-windows
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+pip install pywinrm
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Adagios agent version to be downloaded/installed from https://github.com/opinkerfi/adagios-agent-windows 
+```
+adagios_agent_version: "1.0.0.1"
+```
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Hosts / monitoring servers that are allowed to connect with the NRPE service can be controlled with allowed_hosts variable
+```
+allowed_hosts: "127.0.0.1,::1,adagios-server"
+```
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+test.yml
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```
+- hosts: windows
+  gather_facts: true
+  vars:
+    temp_path: '{{ ansible_env.TEMP }}'
+    allowed_hosts: "127.0.0.1,adagios-server"
+    adagios_agent_version: "1.0.0.1"
+  tasks:
+    - name: show temp path
+      debug:
+        var: temp_path
 
+    - name: show env ProgramFiles
+      debug:
+        var: ansible_env['ProgramFiles']
+  roles:
+    - ../../ansible-adagios-agent-windows
+
+```
+
+Clone this repository and cd into it, then run:
+```
 vagrant up
-
 ansible-playbook -i tests/inventory tests/test.yml
+```
 
 License
 -------
@@ -39,4 +60,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Opin Kerfi ehf - https://opinkerfi.is
