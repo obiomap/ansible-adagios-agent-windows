@@ -1,16 +1,14 @@
 ---
 #tasks file for ansible-adagios-agent-windows
-- name: Get Adagios currentversion registry key value
-  win_reg_stat:
-    path: HKLM:\SOFTWARE\OpinKerfi\Adagios
-    name: CurrentVersion
-  register: currentversion
-
-- debug:
-    var: currentversion.value
+- name: Check the current installed version of Adagios agent
+  win_command: 'C:\PROGRA~1\NSClient++\nscp.exe settings --path /adagios --key "adagios_agent_version" --show'
+  register: adagios_agent_version_installed
 
 - debug:
     var: adagios_agent_version
+
+- debug:
+    var: adagios_agent_version_installed
 
 - name: Download Adagios agent version {{ adagios_agent_version }} from Github
   win_get_url:
@@ -19,18 +17,18 @@
     force: yes
     validate_certs: no
     timeout: 100
-  when: currentversion.value != adagios_agent_version
+  when: adagios_agent_version_installed.stdout != adagios_agent_version
 
 - name: Unzip
   win_unzip:
     src: '{{ ansible_env.TEMP }}\{{ adagios_agent_version }}.zip'
     dest: '{{ ansible_env.TEMP }}'
     delete_archive: yes
-  when: currentversion.value != adagios_agent_version
+  when: adagios_agent_version_installed.stdout != adagios_agent_version
 
 - name: Install Adagios agent (NSClient++ with OKconfig support for Adagios)
   win_command: '{{ ansible_env.TEMP }}\adagios-agent-windows-{{ adagios_agent_version }}\Deploy-Application.exe'
-  when: currentversion.value != adagios_agent_version
+  when: adagios_agent_version_installed.stdout != adagios_agent_version
 
 - name: Configure nscp allowed_hosts
   win_command: 'C:\PROGRA~1\NSClient++\nscp.exe settings --path /settings/default --key "allowed hosts" --set "{{ allowed_hosts }}"'
