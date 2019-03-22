@@ -3,7 +3,7 @@
 - name: Check if NSClient++ is installed
   win_stat:
     path: 'C:\PROGRA~1\NSClient++\nscp.exe'
-    register: is_nscp_installed
+  register: is_nscp_installed
 
 - debug:
     var: is_nscp_installed 
