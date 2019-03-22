@@ -10,6 +10,13 @@
 
 - debug:
     var: adagios_agent_version_installed
+    
+- debug:
+    var: adagios_agent_version_installed.stdout
+
+- set_fact:  
+    adagios_agent_version_installed.stdout: "0"
+    when: adagios_agent_version_installed.stdout is undefined
 
 - name: Download Adagios agent version {{ adagios_agent_version }} from Github
   win_get_url:
