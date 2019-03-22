@@ -42,11 +42,11 @@
     src: '{{ ansible_env.TEMP }}\{{ adagios_agent_version }}.zip'
     dest: '{{ ansible_env.TEMP }}'
     delete_archive: yes
-  when: adagios_agent_version_installed.stdout != adagios_agent_version
+  when: adagios_agent_version_installed != adagios_agent_version
 
 - name: Install Adagios agent (NSClient++ with OKconfig support for Adagios)
   win_command: '{{ ansible_env.TEMP }}\adagios-agent-windows-{{ adagios_agent_version }}\Deploy-Application.exe'
-  when: adagios_agent_version_installed.stdout != adagios_agent_version
+  when: adagios_agent_version_installed != adagios_agent_version
 
 - name: Configure nscp allowed_hosts
   win_command: 'C:\PROGRA~1\NSClient++\nscp.exe settings --path /settings/default --key "allowed hosts" --set "{{ allowed_hosts }}"'
