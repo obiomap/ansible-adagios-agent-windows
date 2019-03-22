@@ -10,17 +10,24 @@
   
 - name: Check the current installed version of Adagios agent
   win_command: 'C:\PROGRA~1\NSClient++\nscp.exe settings --path /adagios --key "adagios_agent_version" --show'
-  register: adagios_agent_version_installed
+  register: adagios_agent_version_output
   when: is_nscp_installed.stat.exists == True
 
 - debug:
     var: adagios_agent_version
 
 - debug:
-    var: adagios_agent_version_installed
+    var: adagios_agent_version_output
     
 - debug:
-    var: adagios_agent_version_installed.stdout
+    var: adagios_agent_version_output.stdout
+
+- set_fact:
+    adagios_agent_version_installed: '{{ adagios_agent_version_installed.stdout | default('0') }}'
+  when: adagios_agent_version_output.stdout is defined
+  
+- debug:
+    var: adagios_agent_version_installed
 
 - name: Download Adagios agent version {{ adagios_agent_version }} from Github
   win_get_url:
@@ -29,7 +36,7 @@
     force: yes
     validate_certs: no
     timeout: 100
-  when: (adagios_agent_version_installed is not defined) or (adagios_agent_version_installed.stdout != adagios_agent_version)
+  when: adagios_agent_version_installed != adagios_agent_version
 
 - name: Unzip
   win_unzip:
