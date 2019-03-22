@@ -11,7 +11,7 @@
 - name: Check the current installed version of Adagios agent
   win_command: 'C:\PROGRA~1\NSClient++\nscp.exe settings --path /adagios --key "adagios_agent_version" --show'
   register: adagios_agent_version_installed
-  when: is_nscp_installed.exists == True
+  when: is_nscp_installed.stat.exists == True
 
 - debug:
     var: adagios_agent_version
