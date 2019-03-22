@@ -18,9 +18,6 @@
 
 - debug:
     var: adagios_agent_version_output
-    
-- debug:
-    var: adagios_agent_version_output.stdout
 
 - set_fact: 
     adagios_agent_version_installed: "{{ adagios_agent_version_output.stdout | default('0') }}"
