@@ -1,9 +1,17 @@
 ---
 #tasks file for ansible-adagios-agent-windows
+- name: Check if NSClient++ is installed
+  win_stat:
+    path: 'C:\PROGRA~1\NSClient++\nscp.exe'
+    register: is_nscp_installed
+
+- debug:
+    var: is_nscp_installed 
+  
 - name: Check the current installed version of Adagios agent
   win_command: 'C:\PROGRA~1\NSClient++\nscp.exe settings --path /adagios --key "adagios_agent_version" --show'
   register: adagios_agent_version_installed
-  ignore_errors: yes
+  when: is_nscp_installed
 
 - debug:
     var: adagios_agent_version
@@ -13,10 +21,6 @@
     
 - debug:
     var: adagios_agent_version_installed.stdout
-
-- set_fact:  
-    adagios_agent_version_installed.stdout: "0"
-    when: adagios_agent_version_installed.stdout is undefined
 
 - name: Download Adagios agent version {{ adagios_agent_version }} from Github
   win_get_url:
