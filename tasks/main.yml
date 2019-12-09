@@ -5,24 +5,29 @@
     path: 'C:\PROGRA~1\NSClient++\nscp.exe'
   register: is_nscp_installed
 
-- debug:
+- name: Printout if nscp is installed
+  debug:
     var: is_nscp_installed
-  
+
 - name: Check the current installed version of Adagios agent
   win_command: 'C:\PROGRA~1\NSClient++\nscp.exe settings --path /adagios --key "adagios_agent_version" --show'
   register: adagios_agent_version_output
-  when: is_nscp_installed.stat.exists == True
+  when: is_nscp_installed.stat.exists
 
-- debug:
+- name: Display Adagios agent version
+  debug:
     var: adagios_agent_version
 
-- debug:
+- name: Display Adagios agent version output
+  debug:
     var: adagios_agent_version_output
 
-- set_fact: 
+- name: Set Adagios version fact
+  set_fact:
     adagios_agent_version_installed: "{{ adagios_agent_version_output.stdout | default('0') }}"
-  
-- debug:
+
+- name: Display Adagios agent version installed
+  debug:
     var: adagios_agent_version_installed
 
 - name: Download Adagios agent version {{ adagios_agent_version }} from Github
@@ -37,7 +42,7 @@
 - name: Unzip
   win_unzip:
     src: '{{ ansible_env.TEMP }}\{{ adagios_agent_version }}.zip'
-    dest: '{{ ansible_env.TEMP }}'
+    dest: "{{ ansible_env.TEMP }}"
     delete_archive: yes
   when: adagios_agent_version_installed != adagios_agent_version
 
